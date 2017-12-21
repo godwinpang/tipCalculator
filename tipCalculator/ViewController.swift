@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     let tipSettings = UserDefaults.standard
+    let locale = Locale.current
     
     @IBOutlet weak var tipControl: UISegmentedControl!
     @IBOutlet weak var billField: UITextField!
@@ -27,7 +28,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.billField.becomeFirstResponder()
-    self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        let currencySymbol1 = locale.currencySymbol!
+        billField.placeholder = currencySymbol1
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -69,11 +72,16 @@ class ViewController: UIViewController {
         let bill = Double(billField.text!) ?? 0
         let tip =  bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String (format: "$%.2f", total)
-        total2Label.text = String (format: "$%.2f", total/2.0)
-        total3Label.text = String (format: "$%.2f", total/3.0)
-        total4Label.text = String (format: "$%.2f", total/4.0)
+        
+        let currencySymbol = locale.currencySymbol!
+        print("currencySymbol = \(currencySymbol)")
+        
+        tipLabel.text = String (format: "\(currencySymbol)%.2f", tip)
+        totalLabel.text = String (format: "\(currencySymbol)%.2f", total)
+        total2Label.text = String (format: "\(currencySymbol)%.2f", total/2.0)
+        total3Label.text = String (format: "\(currencySymbol)%.2f", total/3.0)
+        total4Label.text = String (format: "\(currencySymbol)%.2f", total/4.0)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,16 +95,17 @@ class ViewController: UIViewController {
     
     
     @IBAction func calculateTip(_ sender: AnyObject) {
+        let currencySymbol = locale.currencySymbol!
         let tipPercentages = [Double(tip1)/100, Double(tip2)/100, Double(tip3)/100]
         let bill = Double(billField.text!) ?? 0
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
         
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String (format: "$%.2f", total)
-        total2Label.text = String (format: "$%.2f", total/2.0)
-        total3Label.text = String (format: "$%.2f", total/3.0)
-        total4Label.text = String (format: "$%.2f", total/4.0)
+        tipLabel.text = String (format: "\(currencySymbol)%.2f", tip)
+        totalLabel.text = String (format: "\(currencySymbol)%.2f", total)
+        total2Label.text = String (format: "\(currencySymbol)%.2f", total/2.0)
+        total3Label.text = String (format: "\(currencySymbol)%.2f", total/3.0)
+        total4Label.text = String (format: "\(currencySymbol)%.2f", total/4.0)
     }
     
 
