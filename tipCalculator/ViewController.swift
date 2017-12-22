@@ -24,13 +24,13 @@ class ViewController: UIViewController {
     var tip1 = 0
     var tip2 = 0
     var tip3 = 0
+    let currencyFormatter = NumberFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.billField.becomeFirstResponder()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        let currencySymbol1 = locale.currencySymbol!
-        billField.placeholder = currencySymbol1
+        billField.placeholder = locale.currencySymbol!
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -68,19 +68,21 @@ class ViewController: UIViewController {
         tipControl.setTitle(String(tip2)+"%", forSegmentAt: 1)
         tipControl.setTitle(String(tip3)+"%", forSegmentAt: 2)
         
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.locale = locale
+        currencyFormatter.maximumFractionDigits = 2
+        
         let tipPercentages = [Double(tip1)/100, Double(tip2)/100, Double(tip3)/100]
         let bill = Double(billField.text!) ?? 0
         let tip =  bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
         
-        let currencySymbol = locale.currencySymbol!
-        print("currencySymbol = \(currencySymbol)")
-        
-        tipLabel.text = String (format: "\(currencySymbol)%.2f", tip)
-        totalLabel.text = String (format: "\(currencySymbol)%.2f", total)
-        total2Label.text = String (format: "\(currencySymbol)%.2f", total/2.0)
-        total3Label.text = String (format: "\(currencySymbol)%.2f", total/3.0)
-        total4Label.text = String (format: "\(currencySymbol)%.2f", total/4.0)
+        tipLabel.text = currencyFormatter.string(from: NSNumber(value: tip))
+        totalLabel.text = currencyFormatter.string(from: NSNumber(value: total))
+        total2Label.text = currencyFormatter.string(from: NSNumber(value: total/2.0))
+        total3Label.text = currencyFormatter.string(from: NSNumber(value: total/3.0))
+        total4Label.text = currencyFormatter.string(from: NSNumber(value: total/4.0))
         
     }
 
@@ -95,17 +97,21 @@ class ViewController: UIViewController {
     
     
     @IBAction func calculateTip(_ sender: AnyObject) {
-        let currencySymbol = locale.currencySymbol!
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.locale = locale
+        currencyFormatter.maximumFractionDigits = 2
+        
         let tipPercentages = [Double(tip1)/100, Double(tip2)/100, Double(tip3)/100]
         let bill = Double(billField.text!) ?? 0
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
-        
-        tipLabel.text = String (format: "\(currencySymbol)%.2f", tip)
-        totalLabel.text = String (format: "\(currencySymbol)%.2f", total)
-        total2Label.text = String (format: "\(currencySymbol)%.2f", total/2.0)
-        total3Label.text = String (format: "\(currencySymbol)%.2f", total/3.0)
-        total4Label.text = String (format: "\(currencySymbol)%.2f", total/4.0)
+
+        tipLabel.text = currencyFormatter.string(from: NSNumber(value: tip))
+        totalLabel.text = currencyFormatter.string(from: NSNumber(value: total))
+        total2Label.text = currencyFormatter.string(from: NSNumber(value: total/2.0))
+        total3Label.text = currencyFormatter.string(from: NSNumber(value: total/3.0))
+        total4Label.text = currencyFormatter.string(from: NSNumber(value: total/4.0))
     }
     
 
