@@ -29,10 +29,6 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var tip2Control: UIStepper!
     @IBOutlet weak var tip3Control: UIStepper!
     
-    var tip1 = 0
-    var tip2 = 0
-    var tip3 = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -51,26 +47,9 @@ class SettingsViewController: UIViewController {
         
         defaultTipControl.selectedSegmentIndex = tipSettings.integer(forKey: "defaultTipIndex")
         
-        if (tipSettings.object(forKey: "customTip1") != nil){
-            tip1 = tipSettings.integer(forKey: "customTip1")
-        }
-        else{
-            tip1 = 18
-        }
-        
-        if (tipSettings.object(forKey: "customTip2") != nil){
-            tip2 = tipSettings.integer(forKey: "customTip2")
-        }
-        else{
-            tip2 = 20
-        }
-        
-        if (tipSettings.object(forKey: "customTip3") != nil){
-            tip3 = tipSettings.integer(forKey: "customTip3")
-        }
-        else{
-            tip3 = 25
-        }
+        let tip1 = tipSettings.integer(forKey: "customTip1")
+        let tip2 = tipSettings.integer(forKey: "customTip2")
+        let tip3 = tipSettings.integer(forKey: "customTip3")
         
         tip1Control.value = Double(tip1)
         tip2Control.value = Double(tip2)
@@ -83,7 +62,6 @@ class SettingsViewController: UIViewController {
         defaultTipControl.setTitle(String(tip1)+"%", forSegmentAt: 0)
         defaultTipControl.setTitle(String(tip2)+"%", forSegmentAt: 1)
         defaultTipControl.setTitle(String(tip3)+"%", forSegmentAt: 2)
-
     }
     
     override func didReceiveMemoryWarning() {

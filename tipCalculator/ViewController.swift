@@ -22,9 +22,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var total4Label: UILabel!
     @IBOutlet weak var tipView: UIView!
     
-    var tip1 = 0
-    var tip2 = 0
-    var tip3 = 0
     var viewInEmptyPosition = true
     
     let currencyFormatter = NumberFormatter()
@@ -33,9 +30,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.billField.becomeFirstResponder()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        
         tipSettings.set("light", forKey: "themeSetting")
+        tipSettings.set(18, forKey: "customTip1")
+        tipSettings.set(20, forKey: "customTip2")
+        tipSettings.set(25, forKey: "customTip3")
         tipSettings.synchronize()
+        
         billField.placeholder = locale.currencySymbol!
+        
         billField.center.y += view.bounds.height / 4
         tipControl.center.y += view.bounds.height
         tipView.center.y += view.bounds.height
@@ -54,30 +57,9 @@ class ViewController: UIViewController {
             self.tipControl.tintColor = .white
         }
         
-        if (tipSettings.object(forKey: "defaultTipIndex") != nil){
-            tipControl.selectedSegmentIndex = tipSettings.integer(forKey: "defaultTipIndex")
-        }
-        
-        if (tipSettings.object(forKey: "customTip1") != nil){
-            tip1 = tipSettings.integer(forKey: "customTip1")
-        }
-        else{
-            tip1 = 18
-        }
-        
-        if (tipSettings.object(forKey: "customTip2") != nil){
-            tip2 = tipSettings.integer(forKey: "customTip2")
-        }
-        else{
-            tip2 = 20
-        }
-        
-        if (tipSettings.object(forKey: "customTip3") != nil){
-            tip3 = tipSettings.integer(forKey: "customTip3")
-        }
-        else{
-            tip3 = 25
-        }
+        let tip1 = tipSettings.integer(forKey: "customTip1")
+        let tip2 = tipSettings.integer(forKey: "customTip2")
+        let tip3 = tipSettings.integer(forKey: "customTip3")
         
         tipControl.setTitle(String(tip1)+"%", forSegmentAt: 0)
         tipControl.setTitle(String(tip2)+"%", forSegmentAt: 1)
@@ -131,7 +113,7 @@ class ViewController: UIViewController {
         currencyFormatter.locale = locale
         currencyFormatter.maximumFractionDigits = 2
         
-        let tipPercentages = [Double(tip1)/100, Double(tip2)/100, Double(tip3)/100]
+        let tipPercentages = [Double(tipSettings.integer(forKey: "customTip1"))/100, Double(tipSettings.integer(forKey: "customTip2"))/100, Double(tipSettings.integer(forKey: "customTip3"))/100]
         let bill = Double(billField.text!) ?? 0
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
