@@ -4,7 +4,7 @@
 
 Submitted by: Godwin Pang
 
-Time spent: **X** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
@@ -21,19 +21,21 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [x] User can set custom tip amounts
+* [x] User can set custom tip amounts using stepper
+* [x] User can choose between light and dark themes
+* [x] Bill amount is displayed as divided between 1, 2, 3, and 4 people
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/sfmDDFi.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+It took time to get used to the XCode interface, and looking up code snippets was somewhat confusing due to the incompatibility of Swift 2 and Swift 3
 
 ## License
 

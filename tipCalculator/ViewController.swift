@@ -61,6 +61,7 @@ class ViewController: UIViewController {
         let tip2 = tipSettings.integer(forKey: "customTip2")
         let tip3 = tipSettings.integer(forKey: "customTip3")
         
+        tipControl.selectedSegmentIndex = tipSettings.integer(forKey: "defaultTipIndex")
         tipControl.setTitle(String(tip1)+"%", forSegmentAt: 0)
         tipControl.setTitle(String(tip2)+"%", forSegmentAt: 1)
         tipControl.setTitle(String(tip3)+"%", forSegmentAt: 2)
