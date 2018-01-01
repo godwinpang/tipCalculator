@@ -20,27 +20,42 @@ class ViewController: UIViewController {
     @IBOutlet weak var total2Label: UILabel!
     @IBOutlet weak var total3Label: UILabel!
     @IBOutlet weak var total4Label: UILabel!
+    @IBOutlet weak var tipView: UIView!
     
     var tip1 = 0
     var tip2 = 0
     var tip3 = 0
+    var viewInEmptyPosition = true
+    
     let currencyFormatter = NumberFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.billField.becomeFirstResponder()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        tipSettings.set("light", forKey: "themeSetting")
+        tipSettings.synchronize()
         billField.placeholder = locale.currencySymbol!
+        billField.center.y += view.bounds.height / 4
+        tipControl.center.y += view.bounds.height
+        tipView.center.y += view.bounds.height
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
+        if ((tipSettings.string(forKey: "themeSetting")) == "light"){
+            self.billField.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            self.view.backgroundColor = .white
+            self.tipControl.tintColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+        } else {
+            self.billField.textColor = .white
+            self.view.backgroundColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            self.tipControl.tintColor = .white
+        }
+        
         if (tipSettings.object(forKey: "defaultTipIndex") != nil){
             tipControl.selectedSegmentIndex = tipSettings.integer(forKey: "defaultTipIndex")
-        }
-        else{
-            tipControl.selectedSegmentIndex = 0
         }
         
         if (tipSettings.object(forKey: "customTip1") != nil){
@@ -97,6 +112,20 @@ class ViewController: UIViewController {
     
     
     @IBAction func calculateTip(_ sender: AnyObject) {
+        
+        if viewInEmptyPosition {
+            viewInEmptyPosition = false
+            UIView.animate(withDuration: 0.3, delay: 0.0,
+                           options: [],
+                           animations: {
+                            self.billField.center.y -= self.view.bounds.height / 4
+                            self.tipControl.center.y -= self.view.bounds.height
+                            self.tipView.center.y -= self.view.bounds.height
+            },
+                           completion: nil
+            )
+        }
+        
         currencyFormatter.usesGroupingSeparator = true
         currencyFormatter.numberStyle = .currency
         currencyFormatter.locale = locale
@@ -114,6 +143,6 @@ class ViewController: UIViewController {
         total4Label.text = currencyFormatter.string(from: NSNumber(value: total/4.0))
     }
     
-
+    
 }
 

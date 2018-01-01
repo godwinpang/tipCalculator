@@ -12,12 +12,19 @@ class SettingsViewController: UIViewController {
 
     let tipSettings = UserDefaults.standard
     
+    @IBOutlet weak var defaultTipLabel: UILabel!
     @IBOutlet weak var defaultTipControl: UISegmentedControl!
     
+    @IBOutlet weak var themeLabel: UILabel!
+    @IBOutlet weak var themeControl: UISegmentedControl!
+
+    @IBOutlet weak var customTipLabel: UILabel!
+    @IBOutlet weak var tip1Name: UILabel!
+    @IBOutlet weak var tip2Name: UILabel!
+    @IBOutlet weak var tip3Name: UILabel!
     @IBOutlet weak var tip1Label: UILabel!
     @IBOutlet weak var tip2Label: UILabel!
     @IBOutlet weak var tip3Label: UILabel!
-
     @IBOutlet weak var tip1Control: UIStepper!
     @IBOutlet weak var tip2Control: UIStepper!
     @IBOutlet weak var tip3Control: UIStepper!
@@ -33,6 +40,15 @@ class SettingsViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        
+        if ((tipSettings.string(forKey: "themeSetting")) == "light"){
+            themeControl.selectedSegmentIndex = 0
+        } else {
+            themeControl.selectedSegmentIndex = 1
+        }
+        
+        self.editThemeSetting(self)
+        
         defaultTipControl.selectedSegmentIndex = tipSettings.integer(forKey: "defaultTipIndex")
         
         if (tipSettings.object(forKey: "customTip1") != nil){
@@ -77,6 +93,45 @@ class SettingsViewController: UIViewController {
     
     @IBAction func getDefaultTip(_ sender: AnyObject) {
         tipSettings.set(defaultTipControl.selectedSegmentIndex, forKey: "defaultTipIndex")
+        tipSettings.synchronize()
+    }
+    
+    @IBAction func editThemeSetting(_ sender: Any) {
+        if (themeControl.selectedSegmentIndex == 0){
+            tipSettings.set("light", forKey: "themeSetting")
+            view.backgroundColor = .white
+            defaultTipLabel.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            defaultTipControl.tintColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            themeLabel.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            themeControl.tintColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            customTipLabel.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip1Name.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip2Name.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip3Name.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip1Label.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip2Label.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip3Label.textColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip1Control.tintColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip2Control.tintColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            tip3Control.tintColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+        } else {
+            tipSettings.set("dark", forKey: "themeSetting")
+            view.backgroundColor = UIColor(red: 1/255, green: 4/255, blue: 52/255, alpha: 1)
+            defaultTipLabel.textColor = .white
+            defaultTipControl.tintColor = .white
+            themeLabel.textColor = .white
+            themeControl.tintColor = .white
+            customTipLabel.textColor = .white
+            tip1Name.textColor = .white
+            tip2Name.textColor = .white
+            tip3Name.textColor = .white
+            tip1Label.textColor = .white
+            tip2Label.textColor = .white
+            tip3Label.textColor = .white
+            tip1Control.tintColor = .white
+            tip2Control.tintColor = .white
+            tip3Control.tintColor = .white
+        }
         tipSettings.synchronize()
     }
     
